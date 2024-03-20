@@ -1,0 +1,20 @@
+version: "3.7"
+
+services:
+  app:
+    container_name: "ranger_clubhouse_web"
+    image: "${NODE_IMG_TAG:-node:20-alpine}"
+    user: ":${NODE_GROUP_ID:-1420}"
+    ports:
+      - "${NODE_PORT:-4200}:4200"
+    environment:
+      - "API_SERVER=${API_SERVER:-http://localhost:8000}"
+    volumes:
+      - "./:/app:cached"
+    command: "npm start"
+    working_dir: "/app"
+
+networks:
+  default:
+    external: true
+    name: "${DOCKER_RANGERS_NETWORK:-ranger-clubhouse}"
